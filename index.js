@@ -1,3 +1,4 @@
+const Joi = require('joi'); //input validator module
 const express = require('express') //LOAD THE EXPRESS MODULE
 const app = express(); //APPLICATION
 const port = 3000; 
@@ -43,11 +44,6 @@ app.get('/api/collegecourses/:id', (req, res, next) => {
 
 // POST=========================================
 // app.post()
-app.post('/api/collegecourses', (req,res,next)=>{
-
-})
-
-// app.put()
 app.post('/api/collegecourses/:id', (req,res)=>{ 
     const course = { 
         id : courses.length + 1, 
@@ -60,6 +56,37 @@ app.post('/api/collegecourses/:id', (req,res)=>{
     collegeCourses.push(course);
     res.send(course);
 });
+
+// app.put()
+app.put('/api/collegecourses/:id', (req,res)=> { 
+    try {
+        // console.log(req.params.id)
+        const collegeCourse = collegeCourses.find(collegeCourse => collegeCourse.id == req.params.id);
+    //    console.log(`final id`, collegeCourse)
+        if(!collegeCourse) throw Error
+       res.status(200).json(collegeCourse)
+    } catch (error) {
+        res.status(400).json({error: `Course ID not found`})
+
+        const schema = { 
+            name: Joi.string()
+        }
+        const result = Joi.validate(req.body, schema); 
+        if (result.error){  
+            res.status(404).send(result.error); 
+            return
+        }
+        collegeCourse.name= req.body.name; 
+        res.send(collegeCourse);
+    } 
+})
+
+function validateCourse(collegeCourse){ 
+    const schema = { 
+        name: Joi.string()
+    }
+    return Joi.validate(collegeCourse,schema);
+}
 
 // app.delete()
 
