@@ -89,7 +89,23 @@ function validateCourse(collegeCourse){
 }
 
 // app.delete()
+app.delete('/api/collegecourses/:id', (req,res)=> { 
+    try {
+        // console.log(req.params.id)
+        console.log(`college course:`,collegeCourse)
+        console.log(`college courses:`, collegeCourses)
+        const collegeCourse = collegeCourses.find(collegeCourse => collegeCourse.id == req.params.id);
+    //    console.log(`final id`, collegeCourse)
+        if(!collegeCourse)res.status(404).send(`The course with the given ID is not found`)
+    } catch (error) {
+        res.status(400).json({error: `Course ID not found`})
+        const index = collegeCourses.indexOf(collegeCourses); 
+        collegeCourses.splice(index,1); 
 
+        res.send(collegeCourses); 
+    }
+
+})
 app.listen(port, ()=>{ 
     console.log(`server is running on port ${port}`)
 });
