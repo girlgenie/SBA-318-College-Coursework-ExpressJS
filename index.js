@@ -26,7 +26,7 @@ app.get('/api/collegecourses', (req, res) => {
     }
 });
 
-// GET ON SPECIFIC COURSE DEPARTMENT ID
+// GET A SINGLE COURSE 
 app.get('/api/collegecourses/:id', (req, res, next) => {
     try {
         // console.log(req.params.id)
@@ -39,12 +39,27 @@ app.get('/api/collegecourses/:id', (req, res, next) => {
     }
 });
 
+
+
+// POST=========================================
 // app.post()
+app.post('/api/collegecourses', (req,res,next)=>{
+
+})
 
 // app.put()
-app.put('/api/collegecourses', (req,res)=>{ 
-    
-})
+app.post('/api/collegecourses/:id', (req,res)=>{ 
+    const course = { 
+        id : courses.length + 1, 
+        name: req.body.name,
+        department: req.body.department, 
+        professor: req.body.professor, 
+        credits: req.body.credits, 
+        description: req.body.description
+    }; 
+    collegeCourses.push(course);
+    res.send(course);
+});
 
 // app.delete()
 
