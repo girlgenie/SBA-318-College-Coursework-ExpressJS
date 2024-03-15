@@ -6,13 +6,13 @@ const collegeCourses = require('./data/collegecourses');
 
 
 
-
-
+// PARSER
+app.use(express.json());
 
 
 // HTTP METHODS
 app.get('/', (req,res)=> { 
-    res.send('Hello World'); 
+    res.send('SBA EXPRESS COLLEGE COURSE DEMO'); 
 });
 
 // ALL COURSES END POINT
@@ -26,10 +26,25 @@ app.get('/api/collegecourses', (req, res) => {
     }
 });
 
+// GET ON SPECIFIC COURSE DEPARTMENT ID
+app.get('/api/collegecourses/:id', (req, res, next) => {
+    try {
+        // console.log(req.params.id)
+        const collegeCourse = collegeCourses.find(collegeCourse => collegeCourse.id == req.params.id);
+    //    console.log(`final id`, collegeCourse)
+        if(!collegeCourse) throw Error
+       res.status(200).json(collegeCourse)
+    } catch (error) {
+        res.status(400).json({error: `Course ID not found`})
+    }
+});
 
 // app.post()
 
 // app.put()
+app.put('/api/collegecourses', (req,res)=>{ 
+    
+})
 
 // app.delete()
 
